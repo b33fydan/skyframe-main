@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PilotOS | Skyframe Control Suite</title>
+  <meta name="description" content="PilotOS: Drone command interface powered by NOVA, built by Skyframe Innovations.">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #000;
+      color: #0ff;
+      font-family: 'Segoe UI', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    .boot {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeIn 2s ease-in-out;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #00f0ff;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      max-width: 800px;
+      width: 100%;
+      margin-top: 2rem;
+    }
+    .module {
+      background: #111;
+      border: 1px solid #0ff;
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .module:hover {
+      background: #0ff;
+      color: #000;
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+    .module h2 {
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+    .module p {
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 4rem;
+      font-size: 0.8rem;
+      color: #555;
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="boot">
+    <h1>PilotOS</h1>
+    <div class="subtitle">Skyframe Compliance & Creativity Suite<br>Powered by NOVA</div>
+  </div>
+
+  <div class="grid">
+    <a href="nova.html">
+      <div class="module">
+        <h2>NOVA</h2>
+        <p>AI Compliance Agent</p>
+      </div>
+    </a>
+    <a href="atlas.html">
+      <div class="module">
+        <h2>Atlas</h2>
+        <p>Drone Zones & Airspace</p>
+      </div>
+    </a>
+    <a href="logbook.html">
+      <div class="module">
+        <h2>Logbook</h2>
+        <p>Flight Data & Lore</p>
+      </div>
+    </a>
+    <a href="#">
+      <div class="module">
+        <h2>Academy</h2>
+        <p>Learning Portal (Coming Soon)</p>
+      </div>
+    </a>
+  </div>
+
+  <footer>
+    PilotOS v0.1 | Skyframe Innovations © 2025
+  </footer>
+
+</body>
+</html>
