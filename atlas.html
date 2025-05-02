@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Skyframe Atlas v2.1 - Interactive Upgrade</title>
+  <title>Skyframe Atlas v2.2 - Filters Enabled</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
   <style>
@@ -19,7 +19,6 @@
       padding: 20px;
       box-shadow: -2px 0 5px rgba(0,0,0,0.8);
       overflow-y: auto;
-      display: none;
     }
     .mapboxgl-popup-content {
       background: #111;
@@ -44,14 +43,33 @@
       margin-top: 10px;
       font-weight: bold;
     }
+    .filter-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 5px 0;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <div id="map"></div>
   <div id="sidebar">
-    <h3>Zone Details</h3>
-    <div id="zoneDetails"></div>
-    <button class="close-btn" onclick="document.getElementById('sidebar').style.display='none'">Close</button>
+    <h3>Zone Filters</h3>
+    <div class="filter-group">
+      <strong>Status</strong><br/>
+      <label><input type="checkbox" class="status-filter" value="Verified" checked> Verified</label>
+      <label><input type="checkbox" class="status-filter" value="Pending" checked> Pending</label>
+      <label><input type="checkbox" class="status-filter" value="No-Fly" checked> No-Fly</label>
+    </div>
+    <div class="filter-group">
+      <strong>Tags</strong><br/>
+      <label><input type="checkbox" class="tag-filter" value="Scenic" checked> Scenic</label>
+      <label><input type="checkbox" class="tag-filter" value="Urban" checked> Urban</label>
+      <label><input type="checkbox" class="tag-filter" value="Class G" checked> Class G</label>
+      <label><input type="checkbox" class="tag-filter" value="Practice" checked> Practice</label>
+    </div>
   </div>
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
@@ -67,8 +85,9 @@
       antialias: true
     });
 
-    // Add controls
     map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'bottom-right');
+
+    let allMarkers = [];
 
     fetch('zones.json')
       .then(res => res.json())
@@ -82,21 +101,30 @@
             .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(zone.name))
             .addTo(map);
 
-          el.addEventListener('click', () => {
-            map.flyTo({ center: [zone.lng, zone.lat], zoom: 11, pitch: 50, bearing: 0, speed: 0.8 });
-            document.getElementById('zoneDetails').innerHTML = `
-              <strong>${zone.name}</strong><br/>
-              ${zone.description}<br/>
-              <em>Airspace:</em> ${zone.airspace}<br/>
-              <em>Ceiling:</em> ${zone.ceiling_ft} ft<br/>
-              <em>Status:</em> ${zone.status}<br/>
-              <em>Tags:</em> ${zone.tags?.join(', ') || 'None'}
-            `;
-            document.getElementById('sidebar').style.display = 'block';
-          });
+          allMarkers.push({ marker, zone });
         });
+        applyFilters(); // initial filter pass
       })
       .catch(err => console.error('Failed to load zones:', err));
+
+    const applyFilters = () => {
+      const selectedStatuses = Array.from(document.querySelectorAll('.status-filter:checked')).map(cb => cb.value);
+      const selectedTags = Array.from(document.querySelectorAll('.tag-filter:checked')).map(cb => cb.value);
+
+      allMarkers.forEach(({ marker, zone }) => {
+        const matchStatus = selectedStatuses.includes(zone.status);
+        const matchTags = !zone.tags || zone.tags.some(tag => selectedTags.includes(tag));
+        if (matchStatus && matchTags) {
+          marker.getElement().style.display = 'block';
+        } else {
+          marker.getElement().style.display = 'none';
+        }
+      });
+    };
+
+    document.querySelectorAll('.status-filter, .tag-filter').forEach(cb => {
+      cb.addEventListener('change', applyFilters);
+    });
   </script>
 </body>
 </html>
