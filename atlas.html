@@ -3,34 +3,59 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Skyframe Atlas v2.0</title>
+  <title>Skyframe Atlas v2.1 - Interactive Upgrade</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
   <style>
-    body, html { margin: 0; padding: 0; height: 100%; background: #000; }
+    body, html { margin: 0; padding: 0; height: 100%; background: #000; font-family: monospace; color: #faff00; }
     #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    #sidebar {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      padding: 20px;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.8);
+      overflow-y: auto;
+      display: none;
+    }
     .mapboxgl-popup-content {
       background: #111;
       color: #faff00;
-      font-family: monospace;
       font-size: 14px;
       border-radius: 5px;
     }
     .marker {
       background-color: #faff00;
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       cursor: pointer;
       box-shadow: 0 0 5px #faff00;
+    }
+    .close-btn {
+      background: #faff00;
+      color: #000;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <div id="map"></div>
+  <div id="sidebar">
+    <h3>Zone Details</h3>
+    <div id="zoneDetails"></div>
+    <button class="close-btn" onclick="document.getElementById('sidebar').style.display='none'">Close</button>
+  </div>
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVlZnlkYW4iLCJhIjoiY21hNzIwaWU3MHZyeDJtcHBubHNxNHI2ciJ9.HGQABkeaK3b1Pu90V-da8Q';
+    mapboxgl.accessToken = 'pk.your-mapbox-token-here';
 
     const map = new mapboxgl.Map({
       container: 'map',
@@ -42,6 +67,9 @@
       antialias: true
     });
 
+    // Add controls
+    map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'bottom-right');
+
     fetch('zones.json')
       .then(res => res.json())
       .then(zones => {
@@ -49,19 +77,23 @@
           const el = document.createElement('div');
           el.className = 'marker';
 
-          new mapboxgl.Marker(el)
+          const marker = new mapboxgl.Marker(el)
             .setLngLat([zone.lng, zone.lat])
-            .setPopup(
-              new mapboxgl.Popup({ offset: 25 })
-                .setHTML(`
-                  <strong>${zone.name}</strong><br/>
-                  ${zone.description}<br/>
-                  <em>Airspace:</em> ${zone.airspace}<br/>
-                  <em>Ceiling:</em> ${zone.ceiling_ft} ft<br/>
-                  <em>Status:</em> ${zone.status}
-                `)
-            )
+            .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(zone.name))
             .addTo(map);
+
+          el.addEventListener('click', () => {
+            map.flyTo({ center: [zone.lng, zone.lat], zoom: 11, pitch: 50, bearing: 0, speed: 0.8 });
+            document.getElementById('zoneDetails').innerHTML = `
+              <strong>${zone.name}</strong><br/>
+              ${zone.description}<br/>
+              <em>Airspace:</em> ${zone.airspace}<br/>
+              <em>Ceiling:</em> ${zone.ceiling_ft} ft<br/>
+              <em>Status:</em> ${zone.status}<br/>
+              <em>Tags:</em> ${zone.tags?.join(', ') || 'None'}
+            `;
+            document.getElementById('sidebar').style.display = 'block';
+          });
         });
       })
       .catch(err => console.error('Failed to load zones:', err));
