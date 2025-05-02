@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Submit a Drone Zone | Skyframe Atlas</title>
+  <style>
+    body {
+      background: #000;
+      color: #0ff;
+      font-family: monospace;
+      padding: 2rem;
+    }
+    h1 {
+      color: #faff00;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    form {
+      max-width: 600px;
+      margin: auto;
+      background: #111;
+      padding: 2rem;
+      border-radius: 8px;
+      border: 1px solid #0ff;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 5px;
+      border: none;
+      font-family: monospace;
+      background: #000;
+      color: #0ff;
+      border: 1px solid #0ff;
+    }
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.75rem;
+      background: #0ff;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      color: #000;
+      font-size: 1rem;
+      border-radius: 6px;
+    }
+    button:hover {
+      background: #00cccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Submit a New Fly Zone</h1>
+  <form action="https://formspree.io/f/mwkgenzd" method="POST">
+    <label for="name">Zone Name</label>
+    <input type="text" name="name" required />
+
+    <label for="description">Description</label>
+    <textarea name="description" rows="4" required></textarea>
+
+    <label for="lat">Latitude</label>
+    <input type="number" step="0.0001" name="lat" required />
+
+    <label for="lng">Longitude</label>
+    <input type="number" step="0.0001" name="lng" required />
+
+    <label for="airspace">Airspace Class</label>
+    <input type="text" name="airspace" placeholder="e.g., Class G" required />
+
+    <label for="ceiling_ft">Ceiling (in feet)</label>
+    <input type="number" name="ceiling_ft" required />
+
+    <label for="tags">Tags (comma separated)</label>
+    <input type="text" name="tags" />
+
+    <label for="submitted_by">Your Name</label>
+    <input type="text" name="submitted_by" required />
+
+    <button type="submit">Transmit to Command</button>
+  </form>
+</body>
+</html>

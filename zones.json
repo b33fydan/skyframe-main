@@ -1,0 +1,53 @@
+[
+    {
+        "id": "zone001",
+        "name": "Harrisburg Open Zone",
+        "description": "Wide urban-friendly area with open Class G airspace. Check TFRs.",
+        "lat": 40.2732,
+        "lng": -76.8867,
+        "airspace": "Class G",
+        "ceiling_ft": 400,
+        "approved": true,
+        "tags": [
+            "urban",
+            "scenic",
+            "open"
+        ],
+        "submitted_by": "Commander BeefyDan",
+        "status": "verified"
+    },
+    {
+        "id": "zone002",
+        "name": "State College Scenic Ridge",
+        "description": "Rural valley with hiking paths. Occasional paragliders. Maintain VLOS.",
+        "lat": 40.7989,
+        "lng": -77.8599,
+        "airspace": "Class E",
+        "ceiling_ft": 200,
+        "approved": false,
+        "tags": [
+            "rural",
+            "ridge",
+            "photogenic"
+        ],
+        "submitted_by": "Skyframe Scout",
+        "status": "pending"
+    },
+    {
+        "id": "zone003",
+        "name": "Lancaster Greenfield Zone",
+        "description": "Farm-friendly corridor. Watch for low-flying aircraft and crop dusters.",
+        "lat": 40.0381,
+        "lng": -76.3055,
+        "airspace": "Class G",
+        "ceiling_ft": 400,
+        "approved": true,
+        "tags": [
+            "agricultural",
+            "flat",
+            "quiet"
+        ],
+        "submitted_by": "Commander BeefyDan",
+        "status": "verified"
+    }
+]

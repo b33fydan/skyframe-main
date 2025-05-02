@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skyframe Innovations | Command Dashboard</title>
+  <meta name="description" content="Skyframe Innovations Control Dashboard - Access NOVA, Atlas, and mission systems.">
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #0ff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      padding: 2rem;
+    }
+
+    h1, h2 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #faff00 !important;
+      text-align: center;
+    }
+
+    p {
+      color: #aaa;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .module {
+      background: #111;
+      border: 2px solid #0ff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .module:hover {
+      background: #0ff;
+      color: #000;
+      cursor: pointer;
+      transform: scale(1.03);
+    }
+
+    .module h2 {
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .module p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      color: #555;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
+</head>
+<body>
+  <h1>Skyframe Innovations</h1>
+  <p>Welcome to the command interface. Select a system to deploy.</p>
+
+  <div class="grid">
+    <a href="nova.html">
+      <div class="module">
+        <h2>NOVA Console</h2>
+        <p>Simulated AI Agent Interface</p>
+      </div>
+    </a>
+    <a href="atlas.html">
+      <div class="module">
+        <h2>Skyframe Atlas</h2>
+        <p>Drone Zone Map Interface</p>
+      </div>
+    </a>
+    <a href="logbook.html">
+      <div class="module">
+        <h2>NOVA Logbook</h2>
+        <p>Development & Lore Logs</p>
+      </div>
+    </a>
+    <a href="https://formspree.io/f/mwkgenzd">
+      <div class="module">
+        <h2>Early Access</h2>
+        <p>View Signup Pipeline</p>
+      </div>
+    </a>
+  </div>
+
+  <footer>
+    Skyframe Innovations © 2025 | All systems monitored by NOVA
+  </footer>
+</body>
+</html>

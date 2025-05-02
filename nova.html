@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NOVA Console | Skyframe Innovations</title>
+  <meta name="description" content="NOVA AI Console Interface - Skyframe Innovations">
+  <style>
+    body {
+      background-color: #000;
+      color: #0ff;
+      font-family: monospace;
+      padding: 20px;
+    }
+    h1 {
+      color: #faff00 !important;
+    }
+    .terminal {
+      background-color: #111;
+      padding: 1rem;
+      border-radius: 8px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .output {
+      white-space: pre-wrap;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      background-color: #000;
+      color: #0ff;
+      border: 1px solid #0ff;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>NOVA AI Console</h1>
+  <div class="terminal">
+    <div class="output" id="terminalOutput">
+> Welcome, pilot.
+> Initializing compliance matrix...
+> NOVA ready for simulation. Type a command below.
+    </div>
+    <input type="text" placeholder="> Type your command..." onkeydown="simulateCommand(event)">
+  </div>
+
+  <script>
+  async function simulateCommand(e) {
+    if (e.key === 'Enter') {
+      const terminal = document.getElementById('terminalOutput');
+      const input = e.target.value.trim();
+      if (!input) return;
+
+      terminal.innerText += `\n> ${input}`;
+      e.target.value = '';
+      terminal.scrollTop = terminal.scrollHeight;
+
+      terminal.innerText += `\n> NOVA is processing`;
+
+      // Typing animation dots
+      let dots = 0;
+      const interval = setInterval(() => {
+        terminal.innerText = terminal.innerText.replace(/\.{0,3}$/, '.'.repeat(++dots % 4));
+      }, 500);
+
+      try {
+        const res = await fetch('/.netlify/functions/nova', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: input })
+        });
+        const data = await res.json();
+
+        clearInterval(interval);
+        terminal.innerText += `\n> ${data.reply}`;
+      } catch (err) {
+        clearInterval(interval);
+        terminal.innerText += `\n> System error. Uplink failed.`;
+      }
+
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+  }
+</script>
+
+
+</body>
+</html>

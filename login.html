@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skyframe Login | Secure Access Portal</title>
+  <meta name="description" content="Log in to Skyframe Academy and PilotOS">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #000;
+      color: #0ff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      height: 100vh;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      color: #faff00 !important;
+    }
+    form {
+      background: #111;
+      padding: 2rem;
+      border-radius: 10px;
+      border: 1px solid #0ff;
+      max-width: 400px;
+      width: 100%;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      background: #000;
+      color: #0ff;
+      border: 1px solid #0ff;
+    }
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background: #0ff;
+      color: #000;
+      font-weight: bold;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #00cccc;
+    }
+    .back {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    .back a {
+      color: #0ff;
+      text-decoration: none;
+    }
+    .disclaimer {
+      font-size: 0.8rem;
+      color: #555;
+      margin-top: 1rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Skyframe Login</h1>
+  <form>
+    <label for="email">Pilot Email</label>
+    <input type="email" id="email" name="email" placeholder="you@skyframeinnovations.com" required />
+
+    <label for="password">Secure Code</label>
+    <input type="password" id="password" name="password" placeholder="••••••••" required />
+
+    <button type="submit" disabled>Log In (Coming Soon)</button>
+
+    <div class="disclaimer">Authentication engine not yet activated.</div>
+  </form>
+
+  <div class="back">
+    <a href="index.html">← Back to Dashboard</a>
+  </div>
+
+</body>
+</html>
