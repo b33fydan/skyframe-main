@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skyframe Atlas | Drone Map</title>
+  <meta name="description" content="Explore drone-friendly flight zones with Skyframe Atlas." />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    body, html {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      font-family: sans-serif;
+      color: white;
+    }
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+    .leaflet-popup-content-wrapper {
+      background: #111;
+      color: #0ff;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+  const map = L.map('map').setView([40.2732, -76.8867], 8);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap contributors & CartoDB',
+    maxZoom: 18,
+  }).addTo(map);
+
+  fetch('zones.json')
+    .then(response => response.json())
+    .then(zones => {
+      zones.forEach(zone => {
+        const popupContent = `
+          <strong>${zone.name}</strong><br>
+          ${zone.description}<br>
+          <em>Airspace:</em> ${zone.airspace}<br>
+          <em>Ceiling:</em> ${zone.ceiling_ft} ft<br>
+          <em>Status:</em> ${zone.status}
+        `;
+        const marker = L.marker([zone.lat, zone.lng])
+          .addTo(map)
+          .bindPopup(popupContent);
+
+        // Color marker based on status (optional future)
+      });
+    })
+    .catch(error => {
+      console.error("Error loading zones:", error);
+    });
+</script>
+</body>
+</html>
