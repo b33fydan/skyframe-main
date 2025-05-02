@@ -1,0 +1,23 @@
+{
+  "name": "skyframe-main",
+  "version": "1.0.0",
+  "description": "Skyframe 2.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/b33fydan/skyframe-main.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/b33fydan/skyframe-main/issues"
+  },
+  "homepage": "https://github.com/b33fydan/skyframe-main#readme",
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  }
+}
