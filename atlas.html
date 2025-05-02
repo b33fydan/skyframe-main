@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Skyframe Atlas v2.2 - Filters Enabled</title>
+  <title>Skyframe Atlas v2.3 - Search & Fly-To</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
   <style>
@@ -20,6 +20,17 @@
       box-shadow: -2px 0 5px rgba(0,0,0,0.8);
       overflow-y: auto;
     }
+    #searchbar {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1;
+      background: #000;
+      padding: 10px;
+      border: 1px solid #faff00;
+      color: #faff00;
+      width: 250px;
+    }
     .mapboxgl-popup-content {
       background: #111;
       color: #faff00;
@@ -34,15 +45,6 @@
       cursor: pointer;
       box-shadow: 0 0 5px #faff00;
     }
-    .close-btn {
-      background: #faff00;
-      color: #000;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-      margin-top: 10px;
-      font-weight: bold;
-    }
     .filter-group {
       margin-bottom: 20px;
     }
@@ -54,6 +56,7 @@
   </style>
 </head>
 <body>
+  <input type="text" id="searchbar" placeholder="Search zones..." />
   <div id="map"></div>
   <div id="sidebar">
     <h3>Zone Filters</h3>
@@ -88,10 +91,12 @@
     map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'bottom-right');
 
     let allMarkers = [];
+    let allZones = [];
 
     fetch('zones.json')
       .then(res => res.json())
       .then(zones => {
+        allZones = zones;
         zones.forEach(zone => {
           const el = document.createElement('div');
           el.className = 'marker';
@@ -103,7 +108,7 @@
 
           allMarkers.push({ marker, zone });
         });
-        applyFilters(); // initial filter pass
+        applyFilters();
       })
       .catch(err => console.error('Failed to load zones:', err));
 
@@ -114,16 +119,25 @@
       allMarkers.forEach(({ marker, zone }) => {
         const matchStatus = selectedStatuses.includes(zone.status);
         const matchTags = !zone.tags || zone.tags.some(tag => selectedTags.includes(tag));
-        if (matchStatus && matchTags) {
-          marker.getElement().style.display = 'block';
-        } else {
-          marker.getElement().style.display = 'none';
-        }
+        marker.getElement().style.display = (matchStatus && matchTags) ? 'block' : 'none';
       });
     };
 
     document.querySelectorAll('.status-filter, .tag-filter').forEach(cb => {
       cb.addEventListener('change', applyFilters);
+    });
+
+    document.getElementById('searchbar').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const query = this.value.trim().toLowerCase();
+        const found = allMarkers.find(({ zone }) => zone.name.toLowerCase().includes(query));
+        if (found) {
+          map.flyTo({ center: [found.zone.lng, found.zone.lat], zoom: 12, pitch: 50, bearing: 0 });
+          found.marker.togglePopup();
+        } else {
+          alert('Zone not found.');
+        }
+      }
     });
   </script>
 </body>
