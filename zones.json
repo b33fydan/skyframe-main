@@ -1,53 +1,288 @@
 [
-    {
-        "id": "zone001",
-        "name": "Harrisburg Open Zone",
-        "description": "Wide urban-friendly area with open Class G airspace. Check TFRs.",
-        "lat": 40.2732,
-        "lng": -76.8867,
-        "airspace": "Class G",
-        "ceiling_ft": 400,
-        "approved": true,
-        "tags": [
-            "urban",
-            "scenic",
-            "open"
-        ],
-        "submitted_by": "Commander BeefyDan",
-        "status": "verified"
-    },
-    {
-        "id": "zone002",
-        "name": "State College Scenic Ridge",
-        "description": "Rural valley with hiking paths. Occasional paragliders. Maintain VLOS.",
-        "lat": 40.7989,
-        "lng": -77.8599,
-        "airspace": "Class E",
-        "ceiling_ft": 200,
-        "approved": false,
-        "tags": [
-            "rural",
-            "ridge",
-            "photogenic"
-        ],
-        "submitted_by": "Skyframe Scout",
-        "status": "pending"
-    },
-    {
-        "id": "zone003",
-        "name": "Lancaster Greenfield Zone",
-        "description": "Farm-friendly corridor. Watch for low-flying aircraft and crop dusters.",
-        "lat": 40.0381,
-        "lng": -76.3055,
-        "airspace": "Class G",
-        "ceiling_ft": 400,
-        "approved": true,
-        "tags": [
-            "agricultural",
-            "flat",
-            "quiet"
-        ],
-        "submitted_by": "Commander BeefyDan",
-        "status": "verified"
-    }
+  {
+    "id": "zone_gettysburg",
+    "name": "Gettysburg Battlefield Zone",
+    "description": "Historic open-air environment with rolling fields and Civil War landmarks.",
+    "lat": 39.8309,
+    "lng": -77.2311,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "historical",
+      "scenic",
+      "open"
+    ]
+  },
+  {
+    "id": "zone_philadelphia",
+    "name": "Philadelphia Urban Observation Zone",
+    "description": "High-traffic urban area with skyscraper views, cultural sites, and dense airspace advisories.",
+    "lat": 39.9526,
+    "lng": -75.1652,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "urban",
+      "scenic",
+      "practice"
+    ]
+  },
+  {
+    "id": "zone_york",
+    "name": "York City Fly Zone",
+    "description": "Compact urban core surrounded by mixed residential terrain.",
+    "lat": 39.9626,
+    "lng": -76.7277,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "urban",
+      "practice"
+    ]
+  },
+  {
+    "id": "zone_pittsburgh",
+    "name": "Pittsburgh River Ridge Zone",
+    "description": "Unique 3-river convergence and hilly skyline terrain.",
+    "lat": 40.4406,
+    "lng": -79.9959,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "urban",
+      "scenic",
+      "river"
+    ]
+  },
+  {
+    "id": "zone_scranton",
+    "name": "Scranton Valley Practice Zone",
+    "description": "Industrial hills and valley terrain with open fields ideal for beginners.",
+    "lat": 41.4089,
+    "lng": -75.6624,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "practice",
+      "urban"
+    ]
+  },
+  {
+    "id": "zone_somerset",
+    "name": "Somerset Hilltop Zone",
+    "description": "Elevated rural zone ideal for wind-resistance testing and panoramic views.",
+    "lat": 40.0065,
+    "lng": -79.0789,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "scenic",
+      "rural"
+    ]
+  },
+  {
+    "id": "zone_chambersburg",
+    "name": "Chambersburg Flatlands Zone",
+    "description": "Open-field area perfect for horizon shots and orbit maneuvers.",
+    "lat": 39.9376,
+    "lng": -77.6611,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "practice",
+      "rural",
+      "open"
+    ]
+  },
+  {
+    "id": "zone_wellsboro",
+    "name": "Wellsboro Pine Forest Zone",
+    "description": "Dense forestry area near the PA Grand Canyon.",
+    "lat": 41.7467,
+    "lng": -77.3003,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "scenic",
+      "forest"
+    ]
+  },
+  {
+    "id": "zone_reading",
+    "name": "Reading Riverfront Zone",
+    "description": "Industrial-to-nature transition zone near river bends and bridges.",
+    "lat": 40.3356,
+    "lng": -75.9269,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "urban",
+      "river"
+    ]
+  },
+  {
+    "id": "zone_williamsport",
+    "name": "Williamsport River Bank Zone",
+    "description": "Wide open riverfront views and athletic fields \u2014 low obstructions.",
+    "lat": 41.2412,
+    "lng": -77.0011,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "practice",
+      "scenic"
+    ]
+  },
+  {
+    "id": "zone_newcastle",
+    "name": "New Castle Foundry Zone",
+    "description": "Post-industrial open grounds and surrounding hills.",
+    "lat": 40.9976,
+    "lng": -80.347,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "urban",
+      "rural"
+    ]
+  },
+  {
+    "id": "zone_uniontown",
+    "name": "Uniontown Scenic Ridge Zone",
+    "description": "Appalachian foothills, light development, ideal for top-down visuals.",
+    "lat": 39.9001,
+    "lng": -79.7167,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "scenic",
+      "elevation"
+    ]
+  },
+  {
+    "id": "zone_shippensburg",
+    "name": "Shippensburg Practice Grounds",
+    "description": "Flat farmland interspersed with barns and silos \u2014 stable air currents.",
+    "lat": 40.0504,
+    "lng": -77.5208,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "open",
+      "practice"
+    ]
+  },
+  {
+    "id": "zone_carlisle",
+    "name": "Carlisle Commons Zone",
+    "description": "Mixed suburban and woodland zone with modest elevation change.",
+    "lat": 40.201,
+    "lng": -77.2003,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "urban",
+      "scenic"
+    ]
+  },
+  {
+    "id": "zone_lebanon",
+    "name": "Lebanon Orchard Zone",
+    "description": "Agricultural sprawl with trees and wide open flatland.",
+    "lat": 40.3409,
+    "lng": -76.4113,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "practice",
+      "open"
+    ]
+  },
+  {
+    "id": "zone_allentown",
+    "name": "Allentown Hill Sweep Zone",
+    "description": "Large city layout with elevated suburban sweep \u2014 great for time-lapse.",
+    "lat": 40.6084,
+    "lng": -75.4902,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "urban",
+      "scenic"
+    ]
+  },
+  {
+    "id": "zone_bellefonte",
+    "name": "Bellefonte Reservoir Zone",
+    "description": "Calm reflective water and nearby woods \u2014 fog potential in mornings.",
+    "lat": 40.9134,
+    "lng": -77.7789,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "scenic",
+      "lake"
+    ]
+  },
+  {
+    "id": "zone_brookville",
+    "name": "Brookville Tree Run Zone",
+    "description": "Lightly forested rural run for low-speed tracking or parallax practice.",
+    "lat": 41.1603,
+    "lng": -79.0834,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "forest",
+      "practice"
+    ]
+  },
+  {
+    "id": "zone_stmarys",
+    "name": "St. Marys Overlook Zone",
+    "description": "Hills, trees, and isolated clearings \u2014 cinematic possibilities.",
+    "lat": 41.4276,
+    "lng": -78.5606,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "scenic",
+      "elevation",
+      "forest"
+    ]
+  },
+  {
+    "id": "zone_erie",
+    "name": "Erie Waterfront Fly Zone",
+    "description": "Great Lake view, industrial shoreline, potential sunset hotspot.",
+    "lat": 42.1292,
+    "lng": -80.0851,
+    "airspace": "Class G",
+    "ceiling_ft": 400,
+    "status": "Verified",
+    "tags": [
+      "lake",
+      "urban",
+      "sunset"
+    ]
+  }
 ]
