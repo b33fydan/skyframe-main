@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Skyframe Atlas v2.4 - Scout This Zone</title>
+  <title>Skyframe Atlas v2.5 - Scout Reports Enabled</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
   <style>
@@ -66,6 +66,14 @@
       margin-top: 10px;
       cursor: pointer;
     }
+    #zoneNote {
+      width: 100%;
+      margin-top: 10px;
+      background: #111;
+      color: #faff00;
+      border: 1px solid #faff00;
+      padding: 5px;
+    }
   </style>
 </head>
 <body>
@@ -90,6 +98,8 @@
       <h3>Zone Details</h3>
       <div id="zoneDetails"></div>
       <button id="scoutButton" style="display:none;">Mark as Scouted</button>
+      <textarea id="zoneNote" rows="4" placeholder="Enter scout notes here..."></textarea>
+      <button id="saveNoteButton">Save Note</button>
     </div>
   </div>
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
@@ -142,6 +152,9 @@
 
     function showZoneDetails(zone) {
       selectedZoneId = zone.id;
+      const scoutNotes = JSON.parse(localStorage.getItem("scoutNotes") || "{}");
+      const savedNote = scoutNotes[zone.id] || "";
+
       document.getElementById('zoneDetails').innerHTML = `
         <strong>${zone.name}</strong><br/>
         ${zone.description}<br/>
@@ -150,9 +163,12 @@
         <em>Status:</em> ${zone.status}<br/>
         <em>Tags:</em> ${zone.tags?.join(', ') || 'None'}
       `;
+
       document.getElementById('scoutButton').style.display = 'inline-block';
       document.getElementById('scoutButton').textContent = scoutedZones.includes(zone.id)
         ? 'Zone Scouted ✓' : 'Mark as Scouted';
+
+      document.getElementById('zoneNote').value = savedNote;
     }
 
     document.getElementById('scoutButton').addEventListener('click', () => {
@@ -163,6 +179,17 @@
         const marker = allMarkers.find(m => m.zone.id === selectedZoneId);
         if (marker) marker.marker.getElement().classList.add("scouted");
         document.getElementById('scoutButton').textContent = 'Zone Scouted ✓';
+      }
+    });
+
+    document.getElementById('saveNoteButton').addEventListener('click', () => {
+      if (!selectedZoneId) return;
+      const note = document.getElementById('zoneNote').value.trim();
+      if (note.length > 0) {
+        let scoutNotes = JSON.parse(localStorage.getItem("scoutNotes") || "{}");
+        scoutNotes[selectedZoneId] = note;
+        localStorage.setItem("scoutNotes", JSON.stringify(scoutNotes));
+        alert("Note saved.");
       }
     });
 
