@@ -3,23 +3,12 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Skyframe Atlas v2.3 - Search & Fly-To</title>
+  <title>Skyframe Atlas v2.4 - Scout This Zone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
   <style>
     body, html { margin: 0; padding: 0; height: 100%; background: #000; font-family: monospace; color: #faff00; }
     #map { position: absolute; top: 0; bottom: 0; width: 100%; }
-    #sidebar {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 300px;
-      height: 100%;
-      background-color: rgba(0,0,0,0.9);
-      padding: 20px;
-      box-shadow: -2px 0 5px rgba(0,0,0,0.8);
-      overflow-y: auto;
-    }
     #searchbar {
       position: absolute;
       top: 10px;
@@ -30,6 +19,17 @@
       border: 1px solid #faff00;
       color: #faff00;
       width: 250px;
+    }
+    #sidebar {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      padding: 20px;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.8);
+      overflow-y: auto;
     }
     .mapboxgl-popup-content {
       background: #111;
@@ -45,12 +45,25 @@
       cursor: pointer;
       box-shadow: 0 0 5px #faff00;
     }
+    .marker.scouted {
+      background-color: #00ffcc;
+      box-shadow: 0 0 8px #00ffcc;
+    }
     .filter-group {
       margin-bottom: 20px;
     }
     label {
       display: block;
       margin: 5px 0;
+      cursor: pointer;
+    }
+    #scoutButton {
+      background: #faff00;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      padding: 8px 12px;
+      margin-top: 10px;
       cursor: pointer;
     }
   </style>
@@ -73,10 +86,15 @@
       <label><input type="checkbox" class="tag-filter" value="Class G" checked> Class G</label>
       <label><input type="checkbox" class="tag-filter" value="Practice" checked> Practice</label>
     </div>
+    <div class="filter-group">
+      <h3>Zone Details</h3>
+      <div id="zoneDetails"></div>
+      <button id="scoutButton" style="display:none;">Mark as Scouted</button>
+    </div>
   </div>
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVlZnlkYW4iLCJhIjoiY21hNzIwaWU3MHZyeDJtcHBubHNxNHI2ciJ9.HGQABkeaK3b1Pu90V-da8Q';
+    mapboxgl.accessToken = 'pk.your-mapbox-token-here';
 
     const map = new mapboxgl.Map({
       container: 'map',
@@ -92,6 +110,9 @@
 
     let allMarkers = [];
     let allZones = [];
+    let selectedZoneId = null;
+
+    const scoutedZones = JSON.parse(localStorage.getItem("scoutedZones") || "[]");
 
     fetch('zones.json')
       .then(res => res.json())
@@ -100,22 +121,54 @@
         zones.forEach(zone => {
           const el = document.createElement('div');
           el.className = 'marker';
+          if (scoutedZones.includes(zone.id)) {
+            el.classList.add('scouted');
+          }
 
           const marker = new mapboxgl.Marker(el)
             .setLngLat([zone.lng, zone.lat])
             .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(zone.name))
             .addTo(map);
 
+          el.addEventListener('click', () => {
+            map.flyTo({ center: [zone.lng, zone.lat], zoom: 12, pitch: 50, bearing: 0 });
+            showZoneDetails(zone);
+          });
+
           allMarkers.push({ marker, zone });
         });
         applyFilters();
-      })
-      .catch(err => console.error('Failed to load zones:', err));
+      });
+
+    function showZoneDetails(zone) {
+      selectedZoneId = zone.id;
+      document.getElementById('zoneDetails').innerHTML = `
+        <strong>${zone.name}</strong><br/>
+        ${zone.description}<br/>
+        <em>Airspace:</em> ${zone.airspace}<br/>
+        <em>Ceiling:</em> ${zone.ceiling_ft} ft<br/>
+        <em>Status:</em> ${zone.status}<br/>
+        <em>Tags:</em> ${zone.tags?.join(', ') || 'None'}
+      `;
+      document.getElementById('scoutButton').style.display = 'inline-block';
+      document.getElementById('scoutButton').textContent = scoutedZones.includes(zone.id)
+        ? 'Zone Scouted ✓' : 'Mark as Scouted';
+    }
+
+    document.getElementById('scoutButton').addEventListener('click', () => {
+      if (!selectedZoneId) return;
+      if (!scoutedZones.includes(selectedZoneId)) {
+        scoutedZones.push(selectedZoneId);
+        localStorage.setItem("scoutedZones", JSON.stringify(scoutedZones));
+        const marker = allMarkers.find(m => m.zone.id === selectedZoneId);
+        if (marker) marker.marker.getElement().classList.add("scouted");
+        document.getElementById('scoutButton').textContent = 'Zone Scouted ✓';
+      }
+    });
 
     const applyFilters = () => {
       const selectedStatuses = Array.from(document.querySelectorAll('.status-filter:checked')).map(cb => cb.value);
       const selectedTags = Array.from(document.querySelectorAll('.tag-filter:checked')).map(cb => cb.value);
-
       allMarkers.forEach(({ marker, zone }) => {
         const matchStatus = selectedStatuses.includes(zone.status);
         const matchTags = !zone.tags || zone.tags.some(tag => selectedTags.includes(tag));
@@ -134,6 +187,7 @@
         if (found) {
           map.flyTo({ center: [found.zone.lng, found.zone.lat], zoom: 12, pitch: 50, bearing: 0 });
           found.marker.togglePopup();
+          showZoneDetails(found.zone);
         } else {
           alert('Zone not found.');
         }
