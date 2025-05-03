@@ -178,7 +178,30 @@
         });
         applyFilters();
 
-        // Marker clustering
+        
+        // Marker hover and click logic
+        allMarkers.forEach(({ marker, zone }) => {
+          marker.getElement().addEventListener('mouseenter', () => {
+            const popup = new mapboxgl.Popup({ offset: 10, closeButton: false })
+              .setLngLat([zone.lng, zone.lat])
+              .setHTML(`<strong>${zone.name}</strong><br/><em>${zone.airspace}</em><br/>Tags: ${zone.tags?.join(', ') || 'None'}`)
+              .addTo(map);
+            marker.getElement().popup = popup;
+          });
+
+          marker.getElement().addEventListener('mouseleave', () => {
+            if (marker.getElement().popup) {
+              marker.getElement().popup.remove();
+              marker.getElement().popup = null;
+            }
+          });
+
+          marker.getElement().addEventListener('click', () => {
+            map.flyTo({ center: [zone.lng, zone.lat], zoom: 12, pitch: 50, bearing: 0 });
+            showZoneDetails(zone);
+          });
+        });
+    
         map.addSource('zones', {
           type: 'geojson',
           data: {
