@@ -133,7 +133,7 @@
   </div>
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVlZnlkYW4iLCJhIjoiY21hNzIwaWU3MHZyeDJtcHBubHNxNHI2ciJ9.HGQABkeaK3b1Pu90V-da8Q';
+    mapboxgl.accessToken = 'pk.pk.eyJ1IjoiYmVlZnlkYW4iLCJhIjoiY21hNzIwaWU3MHZyeDJtcHBubHNxNHI2ciJ9.HGQABkeaK3b1Pu90V-da8Q';
 
     const map = new mapboxgl.Map({
       container: 'map',
@@ -157,7 +157,43 @@
       .then(res => res.json())
       .then(zones => {
         allZones = zones;
+        
+        allMarkers = [];  // clear previous
         zones.forEach(zone => {
+          const el = document.createElement('div');
+          el.className = 'marker';
+          if (scoutedZones.includes(zone.id)) {
+            el.classList.add('scouted');
+          }
+
+          const marker = new mapboxgl.Marker(el)
+            .setLngLat([zone.lng, zone.lat])
+            .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(zone.name))
+            .addTo(map);
+
+          el.addEventListener('mouseenter', () => {
+            const popup = new mapboxgl.Popup({ offset: 10, closeButton: false })
+              .setLngLat([zone.lng, zone.lat])
+              .setHTML(`<strong>${zone.name}</strong><br/><em>${zone.airspace}</em><br/>Tags: ${zone.tags?.join(', ') || 'None'}`)
+              .addTo(map);
+            el.popup = popup;
+          });
+
+          el.addEventListener('mouseleave', () => {
+            if (el.popup) {
+              el.popup.remove();
+              el.popup = null;
+            }
+          });
+
+          el.addEventListener('click', () => {
+            map.flyTo({ center: [zone.lng, zone.lat], zoom: 12, pitch: 50, bearing: 0 });
+            showZoneDetails(zone);
+          });
+
+          allMarkers.push({ marker, zone });
+        });
+    
           const el = document.createElement('div');
           el.className = 'marker';
           if (scoutedZones.includes(zone.id)) {
