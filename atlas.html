@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Skyframe Atlas v2.8 – Geolocation Enabled</title>
+  <title>Skyframe Atlas v2.8 – Full Geolocation Build</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
   <style>
@@ -29,8 +29,6 @@
   <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiYmVlZnlkYW4iLCJhIjoiY21hNzIwaWU3MHZyeDJtcHBubHNxNHI2ciJ9.HGQABkeaK3b1Pu90V-da8Q';
 
-    const userLocationMarker = new mapboxgl.Marker({ color: '#00ffcc' });
-
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/dark-v10',
@@ -42,6 +40,8 @@
     });
 
     map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'bottom-right');
+
+    const userLocationMarker = new mapboxgl.Marker({ color: '#00ffcc' });
 
     const locateBtn = document.createElement('button');
     locateBtn.innerHTML = '📍 My Location';
@@ -69,6 +69,7 @@
       }
     });
 
+    // Auto-center on page load
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         const lng = position.coords.longitude;
@@ -77,6 +78,8 @@
         userLocationMarker.setLngLat([lng, lat]).addTo(map);
       });
     }
+
+    // Future content like markers, clustering, sidebar, scout logic would be re-added here
   </script>
 </body>
 </html>
