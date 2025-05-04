@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Skyframe Atlas v2.7.1 – Stable Build</title>
+  <title>Skyframe Atlas – Clustering Enabled</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
   <style>
@@ -29,25 +29,11 @@
   <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiYmVlZnlkYW4iLCJhIjoiY21hNzIwaWU3MHZyeDJtcHBubHNxNHI2ciJ9.HGQABkeaK3b1Pu90V-da8Q';
 
-    const zones = [
-      {
-        id: "zone001",
-        name: "Harrisburg Open Zone",
-        description: "Wide urban-friendly area with open Class G airspace. Check TFRs.",
-        lat: 40.2732,
-        lng: -76.8867,
-        airspace: "Class G",
-        ceiling_ft: 400,
-        approved: true,
-        tags: ["urban", "scenic", "open"]
-      }
-    ];
-
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/dark-v10',
-      center: [-76.8867, 40.2732],
-      zoom: 7,
+      center: [-77.2, 40.2],
+      zoom: 6,
       pitch: 45,
       bearing: -10,
       antialias: true
@@ -55,37 +41,111 @@
 
     map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'bottom-right');
 
-    const allMarkers = [];
+    async function loadZones() {
+      const response = await fetch('zones.json');
+      const zones = await response.json();
 
-    zones.forEach(zone => {
-      const el = document.createElement('div');
-      el.className = 'marker';
-      const marker = new mapboxgl.Marker(el)
-        .setLngLat([zone.lng, zone.lat])
-        .addTo(map);
-
-      el.addEventListener('mouseenter', () => {
-        const popup = new mapboxgl.Popup({ offset: 10, closeButton: false })
-          .setLngLat([zone.lng, zone.lat])
-          .setHTML(`<strong>${zone.name}</strong><br/><em>${zone.airspace}</em><br/>Tags: ${zone.tags?.join(', ') || 'None'}`)
-          .addTo(map);
-        el.popup = popup;
-      });
-
-      el.addEventListener('mouseleave', () => {
-        if (el.popup) {
-          el.popup.remove();
-          el.popup = null;
+      const features = zones.map(zone => ({
+        type: 'Feature',
+        properties: {
+          id: zone.id,
+          name: zone.name,
+          description: zone.description,
+          airspace: zone.airspace,
+          tags: zone.tags
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [zone.lng, zone.lat]
         }
-      });
+      }));
 
-      el.addEventListener('click', () => {
-        map.flyTo({ center: [zone.lng, zone.lat], zoom: 12, pitch: 50, bearing: 0 });
-        alert(`Scout Report for ${zone.name}`);
-      });
+      map.on('load', () => {
+        map.addSource('zones', {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: features
+          },
+          cluster: true,
+          clusterMaxZoom: 14,
+          clusterRadius: 50
+        });
 
-      allMarkers.push({ marker, zone });
-    });
+        map.addLayer({
+          id: 'clusters',
+          type: 'circle',
+          source: 'zones',
+          filter: ['has', 'point_count'],
+          paint: {
+            'circle-color': '#faff00',
+            'circle-radius': ['step', ['get', 'point_count'], 15, 10, 20, 30, 25]
+          }
+        });
+
+        map.addLayer({
+          id: 'cluster-count',
+          type: 'symbol',
+          source: 'zones',
+          filter: ['has', 'point_count'],
+          layout: {
+            'text-field': '{point_count_abbreviated}',
+            'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+            'text-size': 12
+          },
+          paint: {
+            'text-color': '#000'
+          }
+        });
+
+        map.addLayer({
+          id: 'unclustered-point',
+          type: 'circle',
+          source: 'zones',
+          filter: ['!', ['has', 'point_count']],
+          paint: {
+            'circle-color': '#faff00',
+            'circle-radius': 6,
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#000'
+          }
+        });
+
+        map.on('click', 'clusters', (e) => {
+          const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+          const clusterId = features[0].properties.cluster_id;
+          map.getSource('zones').getClusterExpansionZoom(clusterId, (err, zoom) => {
+            if (err) return;
+            map.easeTo({ center: features[0].geometry.coordinates, zoom });
+          });
+        });
+
+        map.on('click', 'unclustered-point', (e) => {
+          const coordinates = e.features[0].geometry.coordinates.slice();
+          const { name, airspace, description, tags } = e.features[0].properties;
+          new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(`<strong>${name}</strong><br/><em>${airspace}</em><br/>${description}<br/>Tags: ${tags}`)
+            .addTo(map);
+          map.flyTo({ center: coordinates, zoom: 12, pitch: 50 });
+        });
+
+        map.on('mouseenter', 'clusters', () => {
+          map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', 'clusters', () => {
+          map.getCanvas().style.cursor = '';
+        });
+        map.on('mouseenter', 'unclustered-point', () => {
+          map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', 'unclustered-point', () => {
+          map.getCanvas().style.cursor = '';
+        });
+      });
+    }
+
+    loadZones();
   </script>
 </body>
 </html>
