@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Skyframe Atlas v2.8 – Full Geolocation Build</title>
+  <title>Skyframe Atlas v2.7.1 – Stable Build</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
   <style>
@@ -29,6 +29,20 @@
   <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiYmVlZnlkYW4iLCJhIjoiY21hNzIwaWU3MHZyeDJtcHBubHNxNHI2ciJ9.HGQABkeaK3b1Pu90V-da8Q';
 
+    const zones = [
+      {
+        id: "zone001",
+        name: "Harrisburg Open Zone",
+        description: "Wide urban-friendly area with open Class G airspace. Check TFRs.",
+        lat: 40.2732,
+        lng: -76.8867,
+        airspace: "Class G",
+        ceiling_ft: 400,
+        approved: true,
+        tags: ["urban", "scenic", "open"]
+      }
+    ];
+
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/dark-v10',
@@ -41,45 +55,37 @@
 
     map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'bottom-right');
 
-    const userLocationMarker = new mapboxgl.Marker({ color: '#00ffcc' });
+    const allMarkers = [];
 
-    const locateBtn = document.createElement('button');
-    locateBtn.innerHTML = '📍 My Location';
-    locateBtn.style.position = 'absolute';
-    locateBtn.style.bottom = '100px';
-    locateBtn.style.right = '10px';
-    locateBtn.style.zIndex = '1';
-    locateBtn.style.background = '#faff00';
-    locateBtn.style.border = 'none';
-    locateBtn.style.padding = '8px';
-    locateBtn.style.cursor = 'pointer';
-    locateBtn.style.fontWeight = 'bold';
-    document.body.appendChild(locateBtn);
+    zones.forEach(zone => {
+      const el = document.createElement('div');
+      el.className = 'marker';
+      const marker = new mapboxgl.Marker(el)
+        .setLngLat([zone.lng, zone.lat])
+        .addTo(map);
 
-    locateBtn.addEventListener('click', () => {
-      if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          const lng = position.coords.longitude;
-          const lat = position.coords.latitude;
-          map.flyTo({ center: [lng, lat], zoom: 12, pitch: 50, bearing: 0 });
-          userLocationMarker.setLngLat([lng, lat]).addTo(map);
-        }, () => alert("Location access denied."));
-      } else {
-        alert("Geolocation not supported.");
-      }
-    });
-
-    // Auto-center on page load
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const lng = position.coords.longitude;
-        const lat = position.coords.latitude;
-        map.setCenter([lng, lat]);
-        userLocationMarker.setLngLat([lng, lat]).addTo(map);
+      el.addEventListener('mouseenter', () => {
+        const popup = new mapboxgl.Popup({ offset: 10, closeButton: false })
+          .setLngLat([zone.lng, zone.lat])
+          .setHTML(`<strong>${zone.name}</strong><br/><em>${zone.airspace}</em><br/>Tags: ${zone.tags?.join(', ') || 'None'}`)
+          .addTo(map);
+        el.popup = popup;
       });
-    }
 
-    // Future content like markers, clustering, sidebar, scout logic would be re-added here
+      el.addEventListener('mouseleave', () => {
+        if (el.popup) {
+          el.popup.remove();
+          el.popup = null;
+        }
+      });
+
+      el.addEventListener('click', () => {
+        map.flyTo({ center: [zone.lng, zone.lat], zoom: 12, pitch: 50, bearing: 0 });
+        alert(`Scout Report for ${zone.name}`);
+      });
+
+      allMarkers.push({ marker, zone });
+    });
   </script>
 </body>
 </html>
