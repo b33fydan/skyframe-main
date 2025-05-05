@@ -8,17 +8,15 @@
   <title>Skyframe Atlas v2.9</title>
   <style>
     body { margin: 0; font-family: sans-serif; background: #111; color: white; }
-    #sidebar { position: fixed; top: 0; right: 0; width: 300px; height: 100vh; background-color: #1a1a1a; border-left: 1px solid #333; overflow-y: auto; padding: 1em; transition: transform 0.3s ease-in-out; box-shadow: inset 0 0 20px rgba(0,255,255,0.1); }
-    details { margin-bottom: 1em; background: #222; border: 1px solid #333; border-radius: 8px; padding: 0.5em; transition: background 0.3s ease; }
+    #sidebar { position: fixed; top: 0; right: 0; width: 300px; height: 100vh; background-color: #000; border-left: 2px solid #ff0; overflow-y: auto; padding: 1em; transition: transform 0.3s ease-in-out; }
+    details { margin-bottom: 1em; background: #222; border: 1px solid #333; border-radius: 8px; padding: 0.5em; }
     details:hover { background: #2a2a2a; }
-    details summary { cursor: pointer; font-weight: bold; transition: text-shadow 0.3s; }
-    details summary:hover { text-shadow: 0 0 8px #0ff; }
-    #nova-console { margin-top: 1em; background: #191919; border: 1px solid #333; border-radius: 8px; padding: 0.5em; box-shadow: 0 0 15px rgba(0,255,255,0.2); animation: pulse 4s infinite; }
+    details summary { cursor: pointer; font-weight: bold; }
+    #nova-console { margin-top: 1em; background: #191919; border: 1px solid #333; border-radius: 8px; padding: 0.5em; }
     #nova-log { max-height: 200px; overflow-y: auto; font-size: 0.9em; margin-bottom: 0.5em; }
-    #nova-input { width: 100%; padding: 0.4em; background: #111; border: 1px solid #444; border-radius: 4px; color: white; transition: border-color 0.3s, box-shadow 0.3s; }
-    #nova-input:focus { outline: none; border-color: #0ff; box-shadow: 0 0 10px rgba(0,255,255,0.5); animation: glow 1.5s infinite alternate; }
-    @keyframes glow { from { box-shadow: 0 0 5px rgba(0,255,255,0.5); } to { box-shadow: 0 0 20px rgba(0,255,255,1); } }
-    @keyframes pulse { 0%,100% { box-shadow: 0 0 15px rgba(0,255,255,0.2); } 50% { box-shadow: 0 0 25px rgba(0,255,255,0.4); } }
+    #nova-input { width: 90%; padding: 0.4em; background: #111; border: 1px solid #444; border-radius: 4px; color: white; }
+    #nova-input:focus { outline: none; border-color: #ff0; box-shadow: 0 0 10px rgba(255,255,0,0.5); }
+    .marker { width:12px; height:12px; border-radius:50%; background:#ff0; cursor:pointer; }
     #map-placeholder { position: absolute; top: 0; left: 0; bottom: 0; right: 300px; display: flex; align-items: center; justify-content: center; background: #222; color: #f88; font-size: 1.2em; text-align: center; }
   </style>
 </head>
@@ -52,7 +50,6 @@
   <script>
     const MAPBOX_TOKEN = 'pk.eyJ1IjoiYmVlZnlkYW4iLCJhIjoiY21hNzIwaWU3MHZyeDJtcHBubHNxNHI2ciJ9.HGQABkeaK3b1Pu90V-da8Q'; // Insert your Mapbox API key here
     const mapContainer = document.getElementById('map');
-
     if (!MAPBOX_TOKEN) {
       mapContainer.id = 'map-placeholder';
       mapContainer.textContent = '⚠️ Mapbox API key is missing. Please set MAPBOX_TOKEN.';
@@ -61,6 +58,14 @@
       mapboxgl.accessToken = MAPBOX_TOKEN;
       const map = new mapboxgl.Map({ container: mapContainer, style: 'mapbox://styles/mapbox/dark-v11', center: [-77.1945, 40.2037], zoom: 7 });
       const flyToCoords = { philadelphia: [-75.1652, 39.9526], pittsburgh: [-79.9959, 40.4406], gettysburg: [-77.2311, 39.8309], harrisburg: [-76.8844, 40.2732], erie: [-80.0851, 42.1292], scranton: [-75.6624, 41.4089] };
+      Object.entries(flyToCoords).forEach(([loc, coords]) => {
+        const el = document.createElement('div'); el.className = 'marker';
+        const popup = new mapboxgl.Popup({ offset: 25, closeButton: false }).setText(loc.charAt(0).toUpperCase() + loc.slice(1));
+        const marker = new mapboxgl.Marker(el).setLngLat(coords).addTo(map);
+        el.addEventListener('mouseenter', () => popup.addTo(map).setLngLat(coords));
+        el.addEventListener('mouseleave', () => popup.remove());
+        el.addEventListener('click', () => { map.flyTo({ center: coords, zoom: 12 }); });
+      });
       const input = document.getElementById('nova-input');
       const log = document.getElementById('nova-log');
       input.addEventListener('keydown', e => {
