@@ -50,10 +50,10 @@
     </div>
   </div>
   <script>
-    const MAPBOX_TOKEN = 'pk.eyJ1IjoiYmVlZnlkYW4iLCJhIjoiY21hNzIwaWU3MHZyeDJtcHBubHNxNHI2ciJ9.HGQABkeaK3b1Pu90V-da8Q';
+    const MAPBOX_TOKEN = 'pk.eyJ1IjoiYmVlZnlkYW4iLCJhIjoiY21hNzIwaWU3MHZyeDJtcHBubHNxNHI2ciJ9.HGQABkeaK3b1Pu90V-da8Q'; // Insert your Mapbox API key here
     const mapContainer = document.getElementById('map');
 
-    if (!MAPBOX_TOKEN || MAPBOX_TOKEN === 'pk.eyJ1IjoiYmVlZnlkYW4iLCJhIjoiY21hNzIwaWU3MHZyeDJtcHBubHNxNHI2ciJ9.HGQABkeaK3b1Pu90V-da8Q') {
+    if (!MAPBOX_TOKEN) {
       mapContainer.id = 'map-placeholder';
       mapContainer.textContent = '⚠️ Mapbox API key is missing. Please set MAPBOX_TOKEN.';
     } else {
