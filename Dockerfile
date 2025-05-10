@@ -2,14 +2,18 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-# Copy the ENTIRE backend directory
+# Copy the backend directory into the container
 COPY skyframe-backend /app/skyframe-backend
 
+# Set working directory to backend
 WORKDIR /app/skyframe-backend
 
+# Install dependencies
 RUN ls -al /app/skyframe-backend && pip install --no-cache-dir -r requirements.txt
 
+# Expose the port your app runs on
 EXPOSE 8000
 
-CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:8000", "skyframe-backend.radius_filter_api:app"]
+# Run the Gunicorn server, referencing the app inside radius_filter_api.py
+CMD ["gunicorn", "radius_filter_api:app", "--chdir", "/app/skyframe-backend", "--bind", "0.0.0.0:8000"]
 
