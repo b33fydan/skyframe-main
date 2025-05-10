@@ -2,7 +2,7 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY skyframe-backend/ ./skyframe-backend/
+COPY ./skyframe-backend/requirements.txt ./skyframe-backend/
 WORKDIR /app/skyframe-backend
 
 RUN pip install --no-cache-dir -r requirements.txt
