@@ -2,7 +2,9 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY ./skyframe-backend/requirements.txt ./skyframe-backend/
+# Copy the entire backend folder
+COPY ./skyframe-backend ./skyframe-backend
+
 WORKDIR /app/skyframe-backend
 
 RUN pip install --no-cache-dir -r requirements.txt
@@ -10,3 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 
 CMD ["gunicorn", "radius_filter_api:app", "--bind", "0.0.0.0:8000"]
+
