@@ -15,5 +15,6 @@ RUN ls -al /app/skyframe-backend && pip install --no-cache-dir -r requirements.t
 EXPOSE 8000
 
 # Run the Gunicorn server, referencing the app inside radius_filter_api.py
-CMD ["gunicorn", "radius_filter_api:app", "--chdir", "/app/skyframe-backend", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "--chdir", "skyframe-backend", "radius_filter_api:app", "-w", "2", "-b", "0.0.0.0:8000"]
+
 
