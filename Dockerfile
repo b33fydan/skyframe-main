@@ -7,6 +7,8 @@ COPY ./skyframe-backend ./skyframe-backend
 
 WORKDIR /app/skyframe-backend
 
+RUN echo "🧾 Listing contents of /app/skyframe-backend before pip install:" && ls -al /app/skyframe-backend
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8000
