@@ -1,0 +1,118 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.2311,
+          39.8309
+        ]
+      },
+      "properties": {
+        "id": "zone_gettysburg",
+        "name": "Gettysburg Battlefield Zone",
+        "description": "Historic open-air environment with rolling fields and Civil War landmarks.",
+        "airspace": "Class G",
+        "ceiling_ft": 400,
+        "status": "Verified",
+        "tags": [
+          "historical",
+          "scenic",
+          "open"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.1652,
+          39.9526
+        ]
+      },
+      "properties": {
+        "id": "zone_philadelphia",
+        "name": "Philadelphia Urban Observation Zone",
+        "description": "High-traffic urban area with skyscraper views, cultural sites, and dense airspace advisories.",
+        "airspace": "Class G",
+        "ceiling_ft": 400,
+        "status": "Verified",
+        "tags": [
+          "urban",
+          "scenic",
+          "practice"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.7277,
+          39.9626
+        ]
+      },
+      "properties": {
+        "id": "zone_york",
+        "name": "York City Fly Zone",
+        "description": "Compact urban core surrounded by mixed residential terrain.",
+        "airspace": "Class G",
+        "ceiling_ft": 400,
+        "status": "Verified",
+        "tags": [
+          "urban",
+          "practice"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.9959,
+          40.4406
+        ]
+      },
+      "properties": {
+        "id": "zone_pittsburgh",
+        "name": "Pittsburgh River Ridge Zone",
+        "description": "Unique 3-river convergence and hilly skyline terrain.",
+        "airspace": "Class G",
+        "ceiling_ft": 400,
+        "status": "Verified",
+        "tags": [
+          "urban",
+          "scenic",
+          "river"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.6624,
+          41.4089
+        ]
+      },
+      "properties": {
+        "id": "zone_scranton",
+        "name": "Scranton Valley Practice Zone",
+        "description": "Industrial hills and valley terrain with open fields ideal for beginners.",
+        "airspace": "Class G",
+        "ceiling_ft": 400,
+        "status": "Verified",
+        "tags": [
+          "practice",
+          "urban"
+        ]
+      }
+    }
+  ]
+}
