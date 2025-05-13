@@ -1,0 +1,40 @@
+# Ignore large and generated files
+faa-full.geojson
+uploads/
+*.mp4
+*.mov
+*.avi
+*.zip
+*.tar
+*.gz
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+
+# Frontend builds (if applicable)
+dist/
+build/
+node_modules/
+
+# Environment/config
+.env
+.env.local
+*.pem
+*.key
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Backup & temp files
+*.bak
+*.swp
+*.tmp
