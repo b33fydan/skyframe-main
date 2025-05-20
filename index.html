@@ -2,116 +2,128 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Skyframe Innovations | Command Dashboard</title>
-  <meta name="description" content="Skyframe Innovations Control Dashboard - Access NOVA, Atlas, and mission systems.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skyframe Innovations</title>
+
+  <!--
+    Skyframe Innovations | Version 2.0.1
+    Codename: NOVA Interface Uplink
+    Created by BeefyDan + ChatGPT Commander
+    All systems monitored by NOVA | 2025
+  -->
+
   <style>
     body {
-      margin: 0;
-      background: #000;
-      color: #0ff;
-      font-family: 'Segoe UI', sans-serif;
+      background-color: black;
+      color: yellow;
+      font-family: 'Courier New', monospace;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: start;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
       padding: 2rem;
+      text-align: center;
     }
 
-    h1, h2 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      color: #faff00 !important;
-      text-align: center;
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
     }
 
     p {
-      color: #aaa;
-      margin-bottom: 2rem;
-      font-size: 1rem;
-      text-align: center;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      width: 100%;
-      max-width: 900px;
-    }
-
-    .module {
-      background: #111;
-      border: 2px solid #0ff;
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .module:hover {
-      background: #0ff;
-      color: #000;
-      cursor: pointer;
-      transform: scale(1.03);
-    }
-
-    .module h2 {
-      margin-bottom: 0.5rem;
+      color: #ccc;
       font-size: 1.2rem;
     }
 
-    .module p {
-      margin: 0;
-      font-size: 0.9rem;
+    .button-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .btn {
+      display: inline-block;
+      width: 250px;
+      padding: 20px;
+      background-color: #111;
+      border: 2px solid cyan;
+      border-radius: 12px;
+      color: yellow;
+      font-weight: bold;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #000;
+      box-shadow: 0 0 12px cyan;
+    }
+
+    .subtitle {
+      display: block;
+      color: #ccc;
+      font-weight: normal;
+      font-size: 0.9em;
+      margin-top: 6px;
+    }
+
+    .social-bar {
+      margin-top: 40px;
+    }
+
+    .social-icon {
+      display: inline-block;
+      margin: 0 10px;
+      font-size: 1.8em;
+      color: cyan;
+      text-decoration: none;
+      transition: transform 0.2s, color 0.2s;
+    }
+
+    .social-icon:hover {
+      transform: scale(1.2);
+      color: yellow;
     }
 
     footer {
-      margin-top: 3rem;
-      color: #555;
-      font-size: 0.8rem;
-      text-align: center;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
+      margin-top: 50px;
+      font-size: 0.9em;
+      color: #666;
     }
   </style>
 </head>
 <body>
+
   <h1>Skyframe Innovations</h1>
   <p>Welcome to the command interface. Select a system to deploy.</p>
 
-  <div class="grid">
-    <a href="nova.html">
-      <div class="module">
-        <h2>NOVA Console</h2>
-        <p>Simulated AI Agent Interface</p>
-      </div>
-    </a>
-    <a href="atlas.html">
-      <div class="module">
-        <h2>Skyframe Atlas</h2>
-        <p>Drone Zone Map Interface</p>
-      </div>
-    </a>
-    <a href="logbook.html">
-      <div class="module">
-        <h2>NOVA Logbook</h2>
-        <p>Development & Lore Logs</p>
-      </div>
-    </a>
-    <a href="https://formspree.io/f/mwkgenzd">
-      <div class="module">
-        <h2>Early Access</h2>
-        <p>View Signup Pipeline</p>
-      </div>
-    </a>
+  <div class="button-grid">
+    <a href="nova.html" class="btn">NOVA Console<br><span class="subtitle">Simulated AI Agent Interface</span></a>
+    <a href="atlas.html" class="btn">Skyframe Atlas<br><span class="subtitle">Drone Zone Map Interface</span></a>
+    <a href="logbook.html" class="btn">NOVA Logbook<br><span class="subtitle">Development & Lore Logs</span></a>
+    <a href="signup.html" class="btn">Early Access<br><span class="subtitle">View Signup Pipeline</span></a>
+    <a href="skyframe-mission.html" class="btn">Mission<br><span class="subtitle">Our Prime Directive</span></a>
+    <a href="contact.html" class="btn">Contact<br><span class="subtitle">Reach Skyframe Command</span></a>
+    <a href="automation.html" class="btn">Automation<br><span class="subtitle">AI Agents in Action</span></a>
+  </div>
+
+  <div class="social-bar">
+    <a href="https://facebook.com" class="social-icon" target="_blank">🌐</a>
+    <a href="https://instagram.com" class="social-icon" target="_blank">📷</a>
+    <a href="https://tiktok.com" class="social-icon" target="_blank">🎵</a>
+    <a href="https://linkedin.com" class="social-icon" target="_blank">💼</a>
+    <a href="https://x.com" class="social-icon" target="_blank">✖</a>
+    <a href="https://threads.net" class="social-icon" target="_blank">🧵</a>
+    <a href="https://bsky.app" class="social-icon" target="_blank">☁️</a>
   </div>
 
   <footer>
     Skyframe Innovations © 2025 | All systems monitored by NOVA
   </footer>
+
 </body>
 </html>
