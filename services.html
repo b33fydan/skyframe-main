@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skyframe Services</title>
+  <style>
+    body {
+      background-color: black;
+      color: yellow;
+      font-family: 'Courier New', monospace;
+      padding: 2rem;
+      text-align: center;
+    }
+    .services-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .service {
+      border: 2px solid cyan;
+      background-color: #111;
+      border-radius: 12px;
+      padding: 1.5rem;
+      max-width: 280px;
+      transition: 0.3s;
+    }
+    .service:hover {
+      box-shadow: 0 0 12px cyan;
+    }
+    .hot {
+      color: red;
+      font-weight: bold;
+      animation: pulse 1.2s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Our Services</h1>
+  <div class="services-grid">
+    <div class="service">
+      <h2>Drone Photography / FPV Shoots</h2>
+      <p>Cinematic visuals from the sky, captured by licensed pilots.</p>
+    </div>
+    <div class="service">
+      <h2>FAA Part 107 Academy</h2>
+      <p>Training for aspiring drone pilots to become FAA certified.</p>
+    </div>
+    <div class="service">
+      <h2>AI Automation for Small Business</h2>
+      <p>Optimize workflows with custom automations powered by AI.</p>
+    </div>
+    <div class="service">
+      <h2>AI Consulting <span class="hot">🔥 HOT</span></h2>
+      <p>Leverage cutting-edge AI to grow, defend, and future-proof your business.</p>
+    </div>
+  </div>
+</body>
+</html>
